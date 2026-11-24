@@ -1,0 +1,339 @@
+
+/* ==============================================
+   IQBF-Calc
+   Diseño de la interfaz
+   OG-IQBF - UNIFSLB
+   Versión 1.0 - 2026
+   ============================================== */
+
+:root {
+    --verde-oscuro: #123D32;
+    --verde-principal: #176B50;
+    --verde-claro: #EAF5EF;
+    --dorado: #D4AF37;
+    --fondo: #F2F5F7;
+    --blanco: #FFFFFF;
+    --texto: #263238;
+    --borde: #D5DDD9;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+    line-height: 1.6;
+}
+
+/* ENCABEZADO */
+
+header {
+    background: linear-gradient(
+        135deg,
+        var(--verde-oscuro),
+        var(--verde-principal)
+    );
+    color: var(--blanco);
+    text-align: center;
+    padding: 35px 20px;
+    border-bottom: 5px solid var(--dorado);
+}
+
+header h1 {
+    font-size: 42px;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+header h2 {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 8px 0 15px;
+}
+
+header p {
+    font-size: 14px;
+    margin: 3px;
+}
+
+/* CONTENEDOR PRINCIPAL */
+
+main {
+    max-width: 1300px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    align-items: start;
+}
+
+/* PANELES */
+
+.calculadora,
+.resultados {
+    background: var(--blanco);
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid var(--borde);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+main h2 {
+    color: var(--verde-oscuro);
+    font-size: 23px;
+    margin-top: 0;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--verde-principal);
+}
+
+main h3 {
+    font-size: 17px;
+    color: var(--verde-principal);
+    margin-top: 25px;
+}
+
+/* CAMPOS DE ENTRADA */
+
+label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 16px;
+    margin-bottom: 6px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--texto);
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+    background: var(--blanco);
+    outline: none;
+    transition: 0.2s;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--verde-principal);
+    box-shadow: 0 0 0 3px rgba(23,107,80,0.12);
+}
+
+input:disabled,
+select:disabled {
+    background: #EDF0F2;
+    color: #88938D;
+    cursor: not-allowed;
+}
+
+/* CARACTERÍSTICAS DEL IQBF */
+
+.propiedades {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: var(--verde-claro);
+    border-left: 4px solid var(--verde-principal);
+    border-radius: 6px;
+}
+
+.propiedades h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.propiedades p {
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+.propiedades span {
+    font-weight: bold;
+    color: var(--verde-oscuro);
+}
+
+/* BOTONES */
+
+.botones {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+button {
+    padding: 13px 18px;
+    border: none;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#calcular {
+    flex: 2;
+    background: var(--verde-principal);
+    color: white;
+}
+
+#calcular:hover {
+    background: var(--verde-oscuro);
+}
+
+#limpiar {
+    flex: 1;
+    background: #E7EBE9;
+    color: var(--texto);
+}
+
+#limpiar:hover {
+    background: #D5DDD9;
+}
+
+button:focus-visible {
+    outline: 3px solid var(--dorado);
+    outline-offset: 3px;
+}
+
+/* TABLA DE RESULTADOS */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 15px;
+}
+
+th {
+    background: var(--verde-oscuro);
+    color: var(--blanco);
+    text-align: left;
+    padding: 14px;
+}
+
+td {
+    padding: 14px;
+    border-bottom: 1px solid var(--borde);
+}
+
+tbody tr:nth-child(even) {
+    background: #F4F8F5;
+}
+
+td:last-child {
+    text-align: right;
+    color: var(--verde-principal);
+    font-weight: bold;
+    font-variant-numeric: tabular-nums;
+}
+
+th:last-child {
+    text-align: right;
+}
+
+/* FÓRMULAS Y DETALLES */
+
+#formula {
+    background: var(--verde-claro);
+    border: 1px solid var(--borde);
+    padding: 16px;
+    border-radius: 7px;
+    font-weight: bold;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+#detalle {
+    background: #F5F7F8;
+    padding: 16px;
+    border-radius: 7px;
+    font-size: 14px;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+/* MENSAJES DEL SISTEMA */
+
+#mensaje:not(:empty) {
+    background: #FFF4DB;
+    border-left: 4px solid #D4AF37;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* PIE DE PÁGINA */
+
+footer {
+    background: var(--verde-oscuro);
+    color: var(--blanco);
+    text-align: center;
+    padding: 22px 15px;
+    border-top: 4px solid var(--dorado);
+    margin-top: 35px;
+}
+
+footer p {
+    font-size: 13px;
+    margin: 4px 0;
+}
+
+footer p:first-child {
+    font-weight: bold;
+    color: #F0D878;
+    font-size: 15px;
+}
+
+/* ADAPTACIÓN A TABLETAS Y CELULARES */
+
+@media (max-width: 850px) {
+    main {
+        grid-template-columns: 1fr;
+        max-width: 650px;
+    }
+
+    header h1 {
+        font-size: 34px;
+    }
+
+    header h2 {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 0 10px;
+        margin-top: 15px;
+    }
+
+    .calculadora,
+    .resultados {
+        padding: 16px;
+    }
+
+    .botones {
+        flex-direction: column;
+    }
+
+    main h2 {
+        font-size: 20px;
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    td,
+    th {
+        padding: 10px;
+    }
+}
