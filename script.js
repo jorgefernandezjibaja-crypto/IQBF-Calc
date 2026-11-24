@@ -122,10 +122,33 @@ const insumos = {
 
 // FUNCIONES GENERALES
 
+
 function numero(id) {
-    const valor = $(id).value;
+    const elemento = $(id);
+
+    if (!elemento) return NaN;
+
+    let valor;
+
+    if (
+        elemento.tagName === "INPUT" ||
+        elemento.tagName === "SELECT" ||
+        elemento.tagName === "TEXTAREA"
+    ) {
+        valor = elemento.value;
+    } else {
+        valor = elemento.textContent;
+    }
+
+    valor = String(valor)
+        .trim()
+        .replace(",", ".")
+        .replace("%", "")
+        .trim();
+
     return valor === "" ? NaN : Number(valor);
 }
+
 
 function formato(valor) {
     if (valor === null || !Number.isFinite(valor)) {
