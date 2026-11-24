@@ -124,27 +124,19 @@ const insumos = {
 
 
 function numero(id) {
-    const elemento = $(id);
+    const elemento = document.getElementById(id);
 
     if (!elemento) return NaN;
 
-    let valor;
-
-    if (
-        elemento.tagName === "INPUT" ||
-        elemento.tagName === "SELECT" ||
-        elemento.tagName === "TEXTAREA"
-    ) {
-        valor = elemento.value;
-    } else {
-        valor = elemento.textContent;
-    }
+    let valor = elemento.matches("input, select, textarea")
+        ? elemento.value
+        : elemento.textContent;
 
     valor = String(valor)
         .trim()
-        .replace(",", ".")
-        .replace("%", "")
-        .trim();
+        .replace(/%/g, "")
+        .replace(/\s/g, "")
+        .replace(",", ".");
 
     return valor === "" ? NaN : Number(valor);
 }
