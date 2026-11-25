@@ -1,79 +1,153 @@
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>IQBF-Calc | Calculadora de IQBF</title>
 
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css?v=1.2">
+
+    <script src="script.js?v=1.2" defer></script>
+
 </head>
 
 <body>
 
     <header>
+
         <h1>IQBF-Calc</h1>
 
-        <h2>Calculadora de requerimiento de insumos químicos y bienes fiscalizados</h2>
+        <h2>
+            Calculadora de requerimiento de insumos químicos y bienes fiscalizados
+        </h2>
 
-        <p>Oficina de Gestión de Insumos Químicos y Bienes Fiscalizados</p>
+        <p>
+            Oficina de Gestión de Insumos Químicos y Bienes Fiscalizados
+        </p>
+
         <p>UNIFSLB</p>
+
     </header>
 
+
     <main>
+
+        <!-- ============================================= -->
+        <!-- PANEL IZQUIERDO: CALCULADORA                   -->
+        <!-- ============================================= -->
 
         <section class="calculadora">
 
             <h2>Calculadora de requerimientos</h2>
 
-            <label for="insumo">Seleccionar insumo químico</label>
+            <label for="insumo">
+                Seleccionar insumo químico
+            </label>
 
             <select id="insumo">
+
                 <option value="">Seleccione un IQBF</option>
+
                 <option value="acetona">01. Acetona</option>
+
                 <option value="hcl">02. Ácido clorhídrico</option>
+
                 <option value="hno3">03. Ácido nítrico</option>
+
                 <option value="h2so4">04. Ácido sulfúrico</option>
+
                 <option value="amoniaco">05. Amoniaco</option>
+
                 <option value="na2co3">06. Carbonato de sodio</option>
+
                 <option value="nh4cl">07. Cloruro de amonio</option>
+
                 <option value="eter">08. Éter etílico</option>
+
                 <option value="kmno4">09. Permanganato de potasio</option>
+
                 <option value="naoh">10. Hidróxido de sodio</option>
+
                 <option value="benceno">11. Benceno</option>
+
                 <option value="cacl2">12. Cloruro de calcio</option>
+
             </select>
+
+
+            <!-- CARACTERÍSTICAS DEL INSUMO -->
 
             <section class="propiedades">
 
                 <h3>Características del insumo existente</h3>
 
-                <p>Presentación: <strong id="estado">—</strong></p>
+                <p>
+                    Presentación:
+                    <strong id="estado">—</strong>
+                </p>
 
-                <p>Pureza: <strong id="pureza">—</strong></p>
+                <p>
+                    Pureza:
+                    <strong id="pureza">—</strong>
+                </p>
 
-                <p>Densidad: <strong id="densidad">—</strong></p>
+                <p>
+                    Densidad:
+                    <strong id="densidad">—</strong>
+                </p>
 
-                <p>Masa molar: <strong id="masaMolar">—</strong></p>
+                <p>
+                    Masa molar:
+                    <strong id="masaMolar">—</strong>
+                </p>
 
-                <p>Peso equivalente: <strong id="pesoEquivalente">—</strong></p>
+                <p>
+                    Peso equivalente:
+                    <strong id="pesoEquivalente">—</strong>
+                </p>
 
-                <p>Normalidad del producto: <strong id="normalidadExistente">—</strong></p>
+                <p>
+                    Normalidad del producto:
+                    <strong id="normalidadExistente">—</strong>
+                </p>
 
-                <p>Molaridad del producto: <strong id="molaridadExistente">—</strong></p>
+                <p>
+                    Molaridad del producto:
+                    <strong id="molaridadExistente">—</strong>
+                </p>
 
             </section>
 
+
+            <!-- DATOS DEL REQUERIMIENTO -->
+
             <h3>Datos del requerimiento</h3>
 
-            <label for="tipoCalculo">Tipo de concentración</label>
+            <label for="tipoCalculo">
+                Tipo de concentración
+            </label>
 
             <select id="tipoCalculo">
-                <option value="normalidad">Normalidad (N)</option>
-                <option value="molaridad">Molaridad (M)</option>
-                <option value="porcentaje">Porcentaje (%)</option>
+
+                <option value="normalidad">
+                    Normalidad (N)
+                </option>
+
+                <option value="molaridad">
+                    Molaridad (M)
+                </option>
+
+                <option value="porcentaje">
+                    Porcentaje (%)
+                </option>
+
             </select>
+
 
             <label id="labelConcentracion" for="concentracion">
                 Concentración requerida (eq/L)
@@ -87,15 +161,27 @@
                 placeholder="Ingrese la concentración"
             >
 
+
             <label for="unidad">
                 Unidad de la cantidad final requerida
             </label>
 
             <select id="unidad">
-                <option value="ml">Mililitros (mL)</option>
-                <option value="l">Litros (L)</option>
-                <option value="gotas">Gotas</option>
+
+                <option value="ml">
+                    Mililitros (mL)
+                </option>
+
+                <option value="l">
+                    Litros (L)
+                </option>
+
+                <option value="gotas">
+                    Gotas
+                </option>
+
             </select>
+
 
             <label for="cantidad">
                 Cantidad final requerida
@@ -108,6 +194,9 @@
                 step="any"
                 placeholder="Ingrese la cantidad"
             >
+
+
+            <!-- BOTONES -->
 
             <div class="botones">
 
@@ -123,81 +212,163 @@
 
         </section>
 
+
+
+        <!-- ============================================= -->
+        <!-- PANEL DERECHO: RESULTADOS                     -->
+        <!-- ============================================= -->
+
         <section class="resultados">
 
             <h2>Resultados del cálculo</h2>
 
-            <div id="mensaje" role="status" aria-live="polite"></div>
 
-            <table>
+            <!-- MENSAJES DE ERROR O ADVERTENCIA -->
+
+            <div
+                id="mensaje"
+                role="status"
+                aria-live="polite"
+            ></div>
+
+
+            <!-- TABLA DE RESULTADOS -->
+
+            <table class="tabla-resultados">
 
                 <thead>
+
                     <tr>
-                        <th>Unidad de medida</th>
-                        <th>Cantidad requerida</th>
+
+                        <th>
+                            Unidad de medida
+                        </th>
+
+                        <th>
+                            Cantidad requerida de la presentación
+                        </th>
+
                     </tr>
+
                 </thead>
+
 
                 <tbody>
 
                     <tr>
-                        <td>Mililitros (mL)</td>
-                        <td id="resultadoML">—</td>
-                    </tr>
 
-                    <tr>
-                        <td>Litros (L)</td>
-                        <td id="resultadoL">—</td>
-                    </tr>
-
-                    <tr>
-                        <td>Gotas (aproximado)</td>
-                        <td id="resultadoGotas">—</td>
-                    </tr>
-
-                    <tr>
-                        <td>Gramos (g)</td>
-                        <td id="resultadoG">—</td>
-                    </tr>
-
-                    <tr>
                         <td>Kilogramos (kg)</td>
+
                         <td id="resultadoKG">—</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Gramos (g)</td>
+
+                        <td id="resultadoG">—</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Litros (L)</td>
+
+                        <td id="resultadoL">—</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Mililitros (mL)</td>
+
+                        <td id="resultadoML">—</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Gotas (aproximado)</td>
+
+                        <td id="resultadoGotas">—</td>
+
                     </tr>
 
                 </tbody>
 
             </table>
 
+
+
+            <!-- FÓRMULA UTILIZADA Y LEYENDA -->
+
             <h3>Fórmula utilizada</h3>
 
-            <p id="formula">—</p>
+            <div class="recuadro-formula">
+
+                <div id="formula" class="formula-matematica">
+
+                    —
+
+                </div>
+
+                <div id="leyendaFormula" class="leyenda-formula">
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DETALLE DEL CÁLCULO -->
 
             <h3>Detalle del cálculo</h3>
 
-            <p id="detalle">—</p>
+            <div id="detalle" class="detalle-calculo">
+
+                —
+
+            </div>
+
+
+
+            <!-- CONSIDERACIONES TÉCNICAS -->
 
             <h3>Consideraciones técnicas</h3>
 
-            <p id="consideraciones">
+            <div id="consideraciones">
+
                 Seleccione un insumo químico.
-            </p>
+
+            </div>
 
         </section>
 
     </main>
 
+
+
+    <!-- ============================================= -->
+    <!-- PIE DE PÁGINA                                 -->
+    <!-- ============================================= -->
+
     <footer>
 
-        <p>IQBF-Calc | Versión 1.1</p>
+        <p>IQBF-Calc | Versión 1.2</p>
 
-        <p>Oficina de Gestión de Insumos Químicos y Bienes Fiscalizados</p>
+        <p>
+            Oficina de Gestión de Insumos Químicos y Bienes Fiscalizados
+        </p>
 
-        <p>Universidad Nacional Intercultural Fabiola Salazar Leguía de Bagua</p>
+        <p>
+            Universidad Nacional Intercultural Fabiola Salazar Leguía de Bagua
+        </p>
 
         <p>2026</p>
 
     </footer>
 
 </body>
+
 </html>
