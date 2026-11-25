@@ -111,7 +111,7 @@ const insumos = {
         estado: "Sólido",
         pureza: 99,
         densidad: null,
-        masaMolar: 158.03,
+        masaMolar: 158.04,
         factor: 5,
         nota: "Normalidad referida exclusivamente a la reducción del permanganato a Mn²⁺ en medio ácido."
     },
