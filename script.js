@@ -144,7 +144,7 @@ const insumos = {
         estado: "Sólido",
         pureza: 99,
         densidad: null,
-        masaMolar: 110.98,
+        masaMolar: 110.99,
         factor: 2,
         nota: "Pureza asumida de 99 %. Normalidad referida a la precipitación de cloruros, con dos equivalentes por mol."
     }
