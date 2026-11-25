@@ -1,339 +1,886 @@
 
-/* ==============================================
+/* ============================================================
    IQBF-Calc
-   Diseño de la interfaz
-   OG-IQBF - UNIFSLB
-   Versión 1.0 - 2026
-   ============================================== */
+   Oficina de Gestión de Insumos Químicos y Bienes Fiscalizados
+   UNIFSLB
+   Versión 1.2 - 2026
+   ============================================================ */
+
+
+/* ============================================================
+   1. COLORES INSTITUCIONALES
+   ============================================================ */
 
 :root {
-    --verde-oscuro: #123D32;
-    --verde-principal: #176B50;
-    --verde-claro: #EAF5EF;
-    --dorado: #D4AF37;
-    --fondo: #F2F5F7;
-    --blanco: #FFFFFF;
-    --texto: #263238;
-    --borde: #D5DDD9;
+
+    --verde-oscuro: #123f32;
+    --verde-institucional: #17694e;
+    --verde-intermedio: #155740;
+    --verde-claro: #e7f2ec;
+
+    --dorado: #d9b440;
+
+    --fondo-general: #f0f3f4;
+    --fondo-secundario: #f4f6f7;
+
+    --blanco: #ffffff;
+    --texto: #26332e;
+    --borde: #d0dbd5;
+
 }
+
+
+/* ============================================================
+   2. CONFIGURACIÓN GENERAL
+   ============================================================ */
 
 * {
+
     box-sizing: border-box;
+
 }
+
 
 body {
+
     margin: 0;
+
     font-family: Arial, Helvetica, sans-serif;
-    background: var(--fondo);
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
     color: var(--texto);
-    line-height: 1.6;
+
+    background-color: var(--fondo-general);
+
 }
 
-/* ENCABEZADO */
+
+/* ============================================================
+   3. ENCABEZADO INSTITUCIONAL
+   ============================================================ */
 
 header {
+
     background: linear-gradient(
-        135deg,
+        120deg,
         var(--verde-oscuro),
-        var(--verde-principal)
+        var(--verde-intermedio)
     );
+
     color: var(--blanco);
+
     text-align: center;
-    padding: 35px 20px;
-    border-bottom: 5px solid var(--dorado);
+
+    padding: 30px 20px;
+
+    border-bottom: 4px solid var(--dorado);
+
 }
+
 
 header h1 {
-    font-size: 42px;
-    margin: 0;
-    letter-spacing: 2px;
+
+    margin: 0 0 10px;
+
+    font-size: 34px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+
 }
+
 
 header h2 {
-    font-size: 20px;
+
+    font-size: 17px;
+
     font-weight: 500;
-    margin: 8px 0 15px;
+
+    margin: 0 0 14px;
+
 }
+
 
 header p {
-    font-size: 14px;
-    margin: 3px;
+
+    font-size: 12px;
+
+    margin: 2px 0;
+
 }
 
-/* CONTENEDOR PRINCIPAL */
+
+/* ============================================================
+   4. DISTRIBUCIÓN PRINCIPAL
+   ============================================================ */
 
 main {
-    max-width: 1300px;
-    margin: 30px auto;
-    padding: 0 20px;
+
+    width: 94%;
+
+    max-width: 1200px;
+
+    margin: 28px auto;
+
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 25px;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 22px;
+
     align-items: start;
+
 }
 
-/* PANELES */
+
+/* ============================================================
+   5. PANELES PRINCIPALES
+   ============================================================ */
 
 .calculadora,
 .resultados {
-    background: var(--blanco);
-    padding: 25px;
-    border-radius: 12px;
+
+    min-width: 0;
+
+    background-color: var(--blanco);
+
     border: 1px solid var(--borde);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+
+    border-radius: 10px;
+
+    padding: 22px;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+
 }
 
-main h2 {
+
+.calculadora h2,
+.resultados h2 {
+
     color: var(--verde-oscuro);
-    font-size: 23px;
-    margin-top: 0;
-    padding-bottom: 12px;
-    border-bottom: 3px solid var(--verde-principal);
+
+    font-size: 19px;
+
+    font-weight: 700;
+
+    margin: 0 0 18px;
+
+    padding-bottom: 10px;
+
+    border-bottom: 1px solid var(--verde-institucional);
+
 }
 
-main h3 {
-    font-size: 17px;
-    color: var(--verde-principal);
-    margin-top: 25px;
+
+.calculadora h3,
+.resultados h3 {
+
+    color: var(--verde-institucional);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    margin: 20px 0 10px;
+
 }
 
-/* CAMPOS DE ENTRADA */
+
+/* ============================================================
+   6. CAMPOS DE INGRESO
+   ============================================================ */
 
 label {
+
     display: block;
-    font-size: 14px;
-    font-weight: bold;
-    margin-top: 16px;
-    margin-bottom: 6px;
+
+    font-weight: 500;
+
+    font-size: 12px;
+
+    margin-top: 15px;
+
+    margin-bottom: 5px;
+
 }
 
-input,
-select {
+
+select,
+input {
+
     width: 100%;
-    padding: 12px;
+
+    min-height: 38px;
+
+    padding: 9px 11px;
+
     font-family: inherit;
-    font-size: 15px;
+
+    font-size: 13px;
+
     color: var(--texto);
+
+    background-color: var(--blanco);
+
     border: 1px solid var(--borde);
-    border-radius: 7px;
-    background: var(--blanco);
+
+    border-radius: 5px;
+
+    transition: border-color 0.2s,
+                box-shadow 0.2s;
+
+}
+
+
+select:focus,
+input:focus {
+
     outline: none;
-    transition: 0.2s;
+
+    border-color: var(--verde-institucional);
+
+    box-shadow: 0 0 0 3px rgba(23, 105, 78, 0.10);
+
 }
 
-input:focus,
-select:focus {
-    border-color: var(--verde-principal);
-    box-shadow: 0 0 0 3px rgba(23,107,80,0.12);
+
+input::placeholder {
+
+    color: #929b96;
+
 }
 
-input:disabled,
-select:disabled {
-    background: #EDF0F2;
-    color: #88938D;
-    cursor: not-allowed;
-}
 
-/* CARACTERÍSTICAS DEL IQBF */
+/* ============================================================
+   7. CARACTERÍSTICAS DEL INSUMO EXISTENTE
+   ============================================================ */
 
 .propiedades {
-    margin-top: 20px;
-    padding: 16px 20px;
-    background: var(--verde-claro);
-    border-left: 4px solid var(--verde-principal);
-    border-radius: 6px;
+
+    background-color: var(--verde-claro);
+
+    border-left: 3px solid var(--verde-institucional);
+
+    border-radius: 5px;
+
+    padding: 14px 16px;
+
+    margin-top: 16px;
+
 }
+
 
 .propiedades h3 {
-    margin-top: 0;
-    margin-bottom: 12px;
+
+    color: var(--verde-intermedio);
+
+    font-size: 14px;
+
+    margin: 0 0 10px;
+
 }
+
 
 .propiedades p {
-    margin: 6px 0;
-    font-size: 14px;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+    margin: 4px 0;
+
 }
 
-.propiedades span {
-    font-weight: bold;
+
+.propiedades strong {
+
     color: var(--verde-oscuro);
+
+    font-weight: 600;
+
 }
 
-/* BOTONES */
+
+/* ============================================================
+   8. BOTONES
+   ============================================================ */
 
 .botones {
+
     display: flex;
-    gap: 12px;
-    margin-top: 25px;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 22px;
+
 }
+
 
 button {
-    padding: 13px 18px;
-    border: none;
-    border-radius: 7px;
-    font-size: 14px;
-    font-weight: bold;
+
+    min-height: 39px;
+
+    padding: 10px 15px;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    border-radius: 6px;
+
     cursor: pointer;
-    transition: 0.2s;
+
+    transition: background-color 0.2s;
+
 }
 
-#calcular {
-    flex: 2;
-    background: var(--verde-principal);
-    color: white;
-}
 
-#calcular:hover {
-    background: var(--verde-oscuro);
-}
+#btnCalcular {
 
-#limpiar {
     flex: 1;
-    background: #E7EBE9;
-    color: var(--texto);
+
+    background-color: var(--verde-institucional);
+
+    border: 1px solid var(--verde-institucional);
+
+    color: var(--blanco);
+
 }
 
-#limpiar:hover {
-    background: #D5DDD9;
+
+#btnCalcular:hover {
+
+    background-color: var(--verde-oscuro);
+
 }
+
+
+#btnLimpiar {
+
+    background-color: #eef1ef;
+
+    color: var(--verde-oscuro);
+
+    border: 1px solid var(--borde);
+
+}
+
+
+#btnLimpiar:hover {
+
+    background-color: #dfe8e2;
+
+}
+
 
 button:focus-visible {
-    outline: 3px solid var(--dorado);
+
+    outline: 2px solid var(--verde-institucional);
+
     outline-offset: 3px;
+
 }
 
-/* TABLA DE RESULTADOS */
 
-table {
+/* ============================================================
+   9. MENSAJES DE ERROR
+   ============================================================ */
+
+#mensaje:empty {
+
+    display: none;
+
+}
+
+
+#mensaje {
+
+    font-size: 12px;
+
+}
+
+
+/* ============================================================
+   10. TABLA DE RESULTADOS
+   ============================================================ */
+
+.tabla-resultados {
+
     width: 100%;
+
     border-collapse: collapse;
-    margin-top: 20px;
-    font-size: 15px;
-}
 
-th {
-    background: var(--verde-oscuro);
-    color: var(--blanco);
-    text-align: left;
-    padding: 14px;
-}
+    table-layout: fixed;
 
-td {
-    padding: 14px;
-    border-bottom: 1px solid var(--borde);
-}
-
-tbody tr:nth-child(even) {
-    background: #F4F8F5;
-}
-
-td:last-child {
-    text-align: right;
-    color: var(--verde-principal);
-    font-weight: bold;
-    font-variant-numeric: tabular-nums;
-}
-
-th:last-child {
-    text-align: right;
-}
-
-/* FÓRMULAS Y DETALLES */
-
-#formula {
-    background: var(--verde-claro);
-    border: 1px solid var(--borde);
-    padding: 16px;
-    border-radius: 7px;
-    font-weight: bold;
-    text-align: center;
-    overflow-wrap: anywhere;
-}
-
-#detalle {
-    background: #F5F7F8;
-    padding: 16px;
-    border-radius: 7px;
-    font-size: 14px;
-    white-space: pre-line;
-    overflow-wrap: anywhere;
-}
-
-/* MENSAJES DEL SISTEMA */
-
-#mensaje:not(:empty) {
-    background: #FFF4DB;
-    border-left: 4px solid #D4AF37;
-    padding: 12px;
-    border-radius: 5px;
-    font-size: 14px;
     margin-top: 10px;
+
+    font-size: 12px;
+
 }
 
-/* PIE DE PÁGINA */
+
+.tabla-resultados thead {
+
+    background-color: var(--verde-oscuro);
+
+    color: var(--blanco);
+
+}
+
+
+.tabla-resultados th {
+
+    padding: 12px 10px;
+
+    font-weight: 600;
+
+    vertical-align: middle;
+
+}
+
+
+.tabla-resultados th:first-child {
+
+    width: 43%;
+
+    text-align: left;
+
+}
+
+
+.tabla-resultados th:last-child {
+
+    width: 57%;
+
+    text-align: center;
+
+}
+
+
+.tabla-resultados td {
+
+    padding: 12px 10px;
+
+    border-bottom: 1px solid var(--borde);
+
+    vertical-align: middle;
+
+}
+
+
+.tabla-resultados tbody tr:nth-child(even) {
+
+    background-color: #f1f6f3;
+
+}
+
+
+.tabla-resultados tbody tr:nth-child(odd) {
+
+    background-color: var(--blanco);
+
+}
+
+
+.tabla-resultados td:last-child {
+
+    text-align: center;
+
+    font-weight: 600;
+
+    color: var(--verde-oscuro);
+
+    font-variant-numeric: tabular-nums;
+
+    overflow-wrap: anywhere;
+
+}
+
+
+/* ============================================================
+   11. RECUADRO DE LA FÓRMULA UTILIZADA
+   ============================================================ */
+
+.recuadro-formula {
+
+    background-color: var(--verde-claro);
+
+    border: 1px solid var(--borde);
+
+    border-radius: 6px;
+
+    padding: 14px 16px;
+
+}
+
+
+.formula-matematica {
+
+    text-align: center;
+
+    font-family: "Cambria Math", Georgia, serif;
+
+    font-size: 18px;
+
+    line-height: 1.4;
+
+    color: var(--verde-oscuro);
+
+    padding: 7px 0 14px;
+
+    overflow-x: auto;
+
+}
+
+
+/* ============================================================
+   12. FRACCIONES MATEMÁTICAS
+   ============================================================ */
+
+.fraccion {
+
+    display: inline-flex;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    vertical-align: middle;
+
+    text-align: center;
+
+    margin: 0 4px;
+
+    white-space: nowrap;
+
+}
+
+
+.numerador {
+
+    display: block;
+
+    padding: 2px 8px 4px;
+
+    border-bottom: 1.5px solid currentColor;
+
+}
+
+
+.denominador {
+
+    display: block;
+
+    padding: 4px 8px 2px;
+
+}
+
+
+/* ============================================================
+   13. LEYENDA COMPACTA DE LA FÓRMULA
+   ============================================================ */
+
+.leyenda-formula {
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 11px;
+
+    line-height: 1.2;
+
+    color: var(--texto);
+
+    text-align: left;
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+
+.leyenda-formula:empty {
+
+    display: none;
+
+}
+
+
+.leyenda-formula > strong {
+
+    display: block;
+
+    margin: 0 0 3px;
+
+    color: var(--verde-oscuro);
+
+}
+
+
+.variable-formula {
+
+    font-size: 11px;
+
+    line-height: 1.2;
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+
+.variable-formula strong {
+
+    color: var(--verde-oscuro);
+
+    font-weight: 700;
+
+}
+
+
+/* ============================================================
+   14. DETALLE DEL CÁLCULO
+   ============================================================ */
+
+.detalle-calculo {
+
+    background-color: var(--fondo-secundario);
+
+    border-radius: 6px;
+
+    padding: 15px;
+
+    text-align: center;
+
+    overflow-x: auto;
+
+}
+
+
+.operacion-matematica {
+
+    font-family: "Cambria Math", Georgia, serif;
+
+    font-size: 17px;
+
+    line-height: 1.4;
+
+    text-align: center;
+
+    padding: 6px 0;
+
+}
+
+
+/* Resultado final del detalle: únicamente gramos */
+
+.resultado-masa {
+
+    display: block;
+
+    width: fit-content;
+
+    max-width: 100%;
+
+    margin: 14px auto 2px;
+
+    padding: 8px 16px;
+
+    border: 1px solid var(--verde-institucional);
+
+    border-radius: 5px;
+
+    background-color: var(--blanco);
+
+    color: var(--verde-oscuro);
+
+    font-family: "Cambria Math", Georgia, serif;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    overflow-wrap: anywhere;
+
+}
+
+
+/* ============================================================
+   15. CONSIDERACIONES TÉCNICAS
+   ============================================================ */
+
+#consideraciones {
+
+    color: #4e5c55;
+
+    font-size: 11px;
+
+    line-height: 1.4;
+
+}
+
+
+#consideraciones p {
+
+    margin: 3px 0;
+
+    padding: 0;
+
+}
+
+
+/* ============================================================
+   16. PIE DE PÁGINA INSTITUCIONAL
+   ============================================================ */
 
 footer {
-    background: var(--verde-oscuro);
+
+    background-color: var(--verde-oscuro);
+
     color: var(--blanco);
+
     text-align: center;
-    padding: 22px 15px;
+
     border-top: 4px solid var(--dorado);
-    margin-top: 35px;
+
+    padding: 22px 15px;
+
 }
+
 
 footer p {
-    font-size: 13px;
-    margin: 4px 0;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+
+    margin: 3px 0;
+
 }
+
 
 footer p:first-child {
-    font-weight: bold;
-    color: #F0D878;
-    font-size: 15px;
+
+    color: #f1d36c;
+
+    font-weight: 700;
+
+    font-size: 13px;
+
+    margin-bottom: 7px;
+
 }
 
-/* ADAPTACIÓN A TABLETAS Y CELULARES */
 
-@media (max-width: 850px) {
+/* ============================================================
+   17. ADAPTACIÓN A TABLETAS Y CELULARES
+   ============================================================ */
+
+@media (max-width: 800px) {
+
     main {
+
         grid-template-columns: 1fr;
-        max-width: 650px;
+
+        max-width: 620px;
+
+        width: 94%;
+
+        margin: 18px auto;
+
+        gap: 18px;
+
     }
+
 
     header h1 {
-        font-size: 34px;
+
+        font-size: 28px;
+
     }
+
 
     header h2 {
-        font-size: 17px;
-    }
-}
 
-@media (max-width: 480px) {
-    main {
-        padding: 0 10px;
-        margin-top: 15px;
+        font-size: 15px;
+
     }
+
 
     .calculadora,
     .resultados {
-        padding: 16px;
+
+        padding: 17px;
+
     }
+
+}
+
+
+@media (max-width: 420px) {
+
+    header {
+
+        padding: 22px 12px;
+
+    }
+
+
+    .calculadora h2,
+    .resultados h2 {
+
+        font-size: 17px;
+
+    }
+
+
+    .tabla-resultados th,
+    .tabla-resultados td {
+
+        font-size: 11px;
+
+        padding: 10px 7px;
+
+    }
+
+
+    .formula-matematica,
+    .operacion-matematica {
+
+        font-size: 15px;
+
+    }
+
+
+    .resultado-masa {
+
+        font-size: 16px;
+
+    }
+
 
     .botones {
+
         flex-direction: column;
+
     }
 
-    main h2 {
-        font-size: 20px;
+
+    #btnCalcular,
+    #btnLimpiar {
+
+        width: 100%;
+
     }
 
-    table {
-        font-size: 13px;
-    }
-
-    td,
-    th {
-        padding: 10px;
-    }
 }
