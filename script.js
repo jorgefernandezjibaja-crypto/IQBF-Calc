@@ -2,8 +2,9 @@
 /* ============================================================
    IQBF-Calc
    Calculadora de requerimiento de IQBF
+   Vicepresidencia de Investigación
    OG-IQBF - UNIFSLB
-   Versión 1.3 - 2026
+   Versión 1.4 - 2026
    ============================================================ */
 
 const $ = id => document.getElementById(id);
@@ -153,10 +154,8 @@ const insumos = {
 
 
 // ============================================================
-// 2. FUNCIONES DE FORMATO NUMÉRICO
+// 2. FORMATOS NUMÉRICOS
 // ============================================================
-
-// Características químicas: exactamente tres decimales.
 
 function formatoCaracteristicas(valor) {
 
@@ -168,8 +167,6 @@ function formatoCaracteristicas(valor) {
 
 }
 
-
-// Resultados: máximo seis decimales.
 
 function formatoResultados(valor) {
 
@@ -188,8 +185,6 @@ function formatoResultados(valor) {
 
 }
 
-
-// Conservación de la precisión numérica disponible.
 
 function formatoCompleto(valor) {
 
@@ -261,8 +256,19 @@ function normalidadProducto(insumo) {
 }
 
 
+function porcentajeMVProducto(insumo) {
+
+    if (!esLiquido(insumo)) {
+        return null;
+    }
+
+    return insumo.pureza * insumo.densidad;
+
+}
+
+
 // ============================================================
-// 4. CONVERSIÓN DEL VOLUMEN FINAL
+// 4. CONVERSIONES DE UNIDADES
 // ============================================================
 
 function convertirAMililitros(cantidad, unidad) {
@@ -286,6 +292,24 @@ function convertirAMililitros(cantidad, unidad) {
 }
 
 
+function convertirAGramos(cantidad, unidad) {
+
+    switch (unidad) {
+
+        case "g":
+            return cantidad;
+
+        case "kg":
+            return cantidad * 1000;
+
+        default:
+            return NaN;
+
+    }
+
+}
+
+
 // ============================================================
 // 5. MENSAJES DE ERROR
 // ============================================================
@@ -295,17 +319,11 @@ function mostrarError(texto) {
     const mensaje = $("mensaje");
 
     mensaje.textContent = texto;
-
     mensaje.style.display = "block";
-
     mensaje.style.backgroundColor = "#fff3cd";
-
     mensaje.style.color = "#856404";
-
     mensaje.style.padding = "10px";
-
     mensaje.style.borderRadius = "5px";
-
     mensaje.style.marginBottom = "12px";
 
 }
@@ -316,7 +334,6 @@ function ocultarMensaje() {
     const mensaje = $("mensaje");
 
     mensaje.textContent = "";
-
     mensaje.style.display = "none";
 
 }
@@ -402,7 +419,7 @@ function mostrarResultados(masaG, insumo) {
 
 
 // ============================================================
-// 8. REPRESENTACIÓN VISUAL DE FRACCIONES
+// 8. REPRESENTACIÓN DE FRACCIONES MATEMÁTICAS
 // ============================================================
 
 function fraccion(numerador, denominador) {
@@ -427,7 +444,7 @@ function fraccion(numerador, denominador) {
 
 
 // ============================================================
-// 9. FÓRMULA MATEMÁTICA Y LEYENDA DINÁMICA
+// 9. FÓRMULA Y LEYENDA DINÁMICA
 // ============================================================
 
 function actualizarFormula() {
@@ -440,7 +457,6 @@ function actualizarFormula() {
     if (!insumo) {
 
         $("formula").textContent = "—";
-
         $("leyendaFormula").innerHTML = "";
 
         return;
@@ -458,24 +474,16 @@ function actualizarFormula() {
     if (tipo === "normalidad") {
 
         formula = "m = " + fraccion(
-
             "N × PE × V",
-
             "P / 100"
-
         );
-
 
         leyenda = [
 
             ["m", "Masa requerida del producto comercial (g)."],
-
             ["N", "Normalidad requerida (eq/L)."],
-
             ["PE", "Peso equivalente (g/eq)."],
-
             ["V", "Volumen final de la solución (L)."],
-
             ["P", "Pureza del producto comercial (% m/m)."]
 
         ];
@@ -488,24 +496,16 @@ function actualizarFormula() {
     else if (tipo === "molaridad") {
 
         formula = "m = " + fraccion(
-
             "M × MM × V",
-
             "P / 100"
-
         );
-
 
         leyenda = [
 
             ["m", "Masa requerida del producto comercial (g)."],
-
             ["M", "Molaridad requerida (mol/L)."],
-
             ["MM", "Masa molar (g/mol)."],
-
             ["V", "Volumen final de la solución (L)."],
-
             ["P", "Pureza del producto comercial (% m/m)."]
 
         ];
@@ -513,31 +513,21 @@ function actualizarFormula() {
     }
 
 
-    // PORCENTAJE VOLUMEN / VOLUMEN
+    // PORCENTAJE MASA / MASA
 
-    else if (
-        tipo === "porcentaje" &&
-        esLiquido(insumo)
-    ) {
+    else if (tipo === "porcentaje_mm") {
 
         formula = "m = " + fraccion(
-
-            "C × V × ρ",
-
-            "100"
-
+            "C × m<sub>f</sub>",
+            "P"
         );
-
 
         leyenda = [
 
             ["m", "Masa requerida del producto comercial (g)."],
-
-            ["C", "Concentración requerida (% v/v del producto comercial)."],
-
-            ["V", "Volumen final de la solución (mL)."],
-
-            ["ρ", "Densidad del producto comercial (g/mL)."]
+            ["C", "Concentración requerida (% m/m)."],
+            ["m<sub>f</sub>", "Masa final de la solución (g)."],
+            ["P", "Pureza del producto comercial (% m/m)."]
 
         ];
 
@@ -546,26 +536,40 @@ function actualizarFormula() {
 
     // PORCENTAJE MASA / VOLUMEN
 
-    else if (tipo === "porcentaje") {
+    else if (tipo === "porcentaje_mv") {
 
         formula = "m = " + fraccion(
-
             "C × V",
-
-            "100 × (P / 100)"
-
+            "P"
         );
-
 
         leyenda = [
 
             ["m", "Masa requerida del producto comercial (g)."],
-
             ["C", "Concentración requerida (% m/v)."],
-
             ["V", "Volumen final de la solución (mL)."],
-
             ["P", "Pureza del producto comercial (% m/m)."]
+
+        ];
+
+    }
+
+
+    // PORCENTAJE VOLUMEN / VOLUMEN COMERCIAL
+
+    else if (tipo === "porcentaje_vv") {
+
+        formula = "m = " + fraccion(
+            "C × V × ρ",
+            "100"
+        );
+
+        leyenda = [
+
+            ["m", "Masa requerida del producto comercial (g)."],
+            ["C", "Concentración requerida (% v/v del producto comercial)."],
+            ["V", "Volumen final de la solución (mL)."],
+            ["ρ", "Densidad del producto comercial (g/mL)."]
 
         ];
 
@@ -579,27 +583,23 @@ function actualizarFormula() {
 
         "<strong>Donde:</strong>" +
 
-        leyenda.map(item => {
+        leyenda.map(item => `
 
-            return `
+            <div class="variable-formula">
 
-                <div class="variable-formula">
+                <strong>${item[0]}:</strong>
 
-                    <strong>${item[0]}:</strong>
+                ${item[1]}
 
-                    ${item[1]}
+            </div>
 
-                </div>
-
-            `;
-
-        }).join("");
+        `).join("");
 
 }
 
 
 // ============================================================
-// 10. CARACTERÍSTICAS DEL INSUMO EXISTENTE
+// 10. CARACTERÍSTICAS DEL INSUMO
 // ============================================================
 
 function actualizarPropiedades() {
@@ -624,20 +624,9 @@ function actualizarPropiedades() {
 
         ].forEach(id => {
 
-            const elemento = $(id);
-
-            if (elemento) {
-
-                elemento.textContent = "—";
-
-            }
+            $(id).textContent = "—";
 
         });
-
-
-        $("tipoCalculo").querySelector(
-            'option[value="normalidad"]'
-        ).disabled = false;
 
 
         actualizarTipoCalculo();
@@ -647,29 +636,17 @@ function actualizarPropiedades() {
     }
 
 
-    // FÓRMULA QUÍMICA
+    $("formulaQuimica").textContent =
+        insumo.formula;
 
-    if ($("formulaQuimica")) {
-
-        $("formulaQuimica").textContent =
-            insumo.formula || "No definido";
-
-    }
-
-
-    // PRESENTACIÓN
 
     $("estado").textContent =
         insumo.estado;
 
 
-    // PUREZA
-
     $("pureza").textContent =
-        insumo.pureza + " %";
+        insumo.pureza + " % m/m";
 
-
-    // DENSIDAD
 
     $("densidad").textContent =
 
@@ -680,16 +657,10 @@ function actualizarPropiedades() {
         : "No requerida";
 
 
-    // MASA MOLAR
-
     $("masaMolar").textContent =
+        formatoCaracteristicas(insumo.masaMolar) +
+        " g/mol";
 
-        formatoCaracteristicas(
-            insumo.masaMolar
-        ) + " g/mol";
-
-
-    // PESO EQUIVALENTE
 
     const PE = pesoEquivalente(insumo);
 
@@ -703,8 +674,6 @@ function actualizarPropiedades() {
         : "No definido";
 
 
-    // NORMALIDAD DEL PRODUCTO
-
     const N = normalidadProducto(insumo);
 
 
@@ -716,8 +685,6 @@ function actualizarPropiedades() {
 
         : "No aplica";
 
-
-    // MOLARIDAD DEL PRODUCTO
 
     const M = molaridadProducto(insumo);
 
@@ -731,109 +698,204 @@ function actualizarPropiedades() {
         : "No aplica";
 
 
-    // HABILITAR O DESHABILITAR NORMALIDAD
-
-    const opcionNormalidad =
-
-        $("tipoCalculo").querySelector(
-            'option[value="normalidad"]'
-        );
-
-
-    opcionNormalidad.disabled =
-        insumo.factor === null;
-
-
-    if (
-        insumo.factor === null &&
-        $("tipoCalculo").value === "normalidad"
-    ) {
-
-        $("tipoCalculo").value = "molaridad";
-
-    }
-
-
     actualizarTipoCalculo();
 
 }
 
 
 // ============================================================
-// 11. TIPO DE CONCENTRACIÓN
+// 11. HABILITAR TIPOS DE CONCENTRACIÓN
+// ============================================================
+
+function actualizarOpcionesConcentracion() {
+
+    const insumo = obtenerInsumo();
+
+    const selector = $("tipoCalculo");
+
+
+    const opcionNormalidad = selector.querySelector(
+        'option[value="normalidad"]'
+    );
+
+
+    const opcionVV = selector.querySelector(
+        'option[value="porcentaje_vv"]'
+    );
+
+
+    opcionNormalidad.disabled =
+        !!insumo && !insumo.factor;
+
+
+    opcionVV.disabled =
+        !!insumo && !esLiquido(insumo);
+
+
+    if (
+
+        selector.value === "normalidad" &&
+        opcionNormalidad.disabled
+
+    ) {
+
+        selector.value = "molaridad";
+
+    }
+
+
+    if (
+
+        selector.value === "porcentaje_vv" &&
+        opcionVV.disabled
+
+    ) {
+
+        selector.value = "porcentaje_mv";
+
+    }
+
+}
+
+
+// ============================================================
+// 12. UNIDADES DE INGRESO DINÁMICAS
+// ============================================================
+
+function actualizarUnidades() {
+
+    const tipo = $("tipoCalculo").value;
+
+    const selectorUnidad = $("unidad");
+
+    const unidadAnterior = selectorUnidad.value;
+
+
+    if (tipo === "porcentaje_mm") {
+
+        selectorUnidad.innerHTML = `
+
+            <option value="g">
+                Gramos (g)
+            </option>
+
+            <option value="kg">
+                Kilogramos (kg)
+            </option>
+
+        `;
+
+
+        $("labelUnidad").textContent =
+            "Unidad de la masa final de la solución";
+
+
+        $("labelCantidad").textContent =
+            "Masa final de la solución";
+
+
+        $("cantidad").placeholder =
+            "Ingrese la masa final";
+
+
+        if (["g", "kg"].includes(unidadAnterior)) {
+
+            selectorUnidad.value = unidadAnterior;
+
+        } else {
+
+            selectorUnidad.value = "g";
+
+            $("cantidad").value = "";
+
+        }
+
+    } else {
+
+        selectorUnidad.innerHTML = `
+
+            <option value="ml">
+                Mililitros (mL)
+            </option>
+
+            <option value="l">
+                Litros (L)
+            </option>
+
+            <option value="gotas">
+                Gotas
+            </option>
+
+        `;
+
+
+        $("labelUnidad").textContent =
+            "Unidad del volumen final de la solución";
+
+
+        $("labelCantidad").textContent =
+            "Volumen final de la solución";
+
+
+        $("cantidad").placeholder =
+            "Ingrese el volumen final";
+
+
+        if (["ml", "l", "gotas"].includes(unidadAnterior)) {
+
+            selectorUnidad.value = unidadAnterior;
+
+        } else {
+
+            selectorUnidad.value = "ml";
+
+            $("cantidad").value = "";
+
+        }
+
+    }
+
+}
+
+
+// ============================================================
+// 13. ETIQUETA DEL TIPO DE CONCENTRACIÓN
 // ============================================================
 
 function actualizarTipoCalculo() {
 
-    const insumo = obtenerInsumo();
+    actualizarOpcionesConcentracion();
+
+    limpiarResultados();
 
     const tipo = $("tipoCalculo").value;
 
 
-    limpiarResultados();
+    const etiquetas = {
+
+        normalidad:
+            "Concentración requerida (eq/L)",
+
+        molaridad:
+            "Concentración requerida (mol/L)",
+
+        porcentaje_mm:
+            "Concentración requerida (% m/m)",
+
+        porcentaje_mv:
+            "Concentración requerida (% m/v)",
+
+        porcentaje_vv:
+            "Concentración requerida (% v/v comercial)"
+
+    };
 
 
-    const opcionPorcentaje =
-
-        $("tipoCalculo").querySelector(
-            'option[value="porcentaje"]'
-        );
+    $("labelConcentracion").textContent =
+        etiquetas[tipo] || "Concentración requerida";
 
 
-    if (!insumo) {
-
-        opcionPorcentaje.textContent =
-            "Porcentaje (%)";
-
-    } else if (esLiquido(insumo)) {
-
-        opcionPorcentaje.textContent =
-            "Porcentaje (% v/v)";
-
-    } else {
-
-        opcionPorcentaje.textContent =
-            "Porcentaje (% m/v)";
-
-    }
-
-
-    switch (tipo) {
-
-        case "normalidad":
-
-            $("labelConcentracion").textContent =
-                "Concentración requerida (eq/L)";
-
-            break;
-
-
-        case "molaridad":
-
-            $("labelConcentracion").textContent =
-                "Concentración requerida (mol/L)";
-
-            break;
-
-
-        case "porcentaje":
-
-            $("labelConcentracion").textContent =
-
-                !insumo
-
-                ? "Concentración requerida (%)"
-
-                : esLiquido(insumo)
-
-                    ? "Concentración requerida (% v/v)"
-
-                    : "Concentración requerida (% m/v)";
-
-            break;
-
-    }
-
+    actualizarUnidades();
 
     actualizarFormula();
 
@@ -843,7 +905,7 @@ function actualizarTipoCalculo() {
 
 
 // ============================================================
-// 12. CONSIDERACIONES TÉCNICAS
+// 14. CONSIDERACIONES TÉCNICAS
 // ============================================================
 
 function actualizarConsideraciones() {
@@ -866,6 +928,50 @@ function actualizarConsideraciones() {
     const notas = [insumo.nota];
 
 
+    if (tipo === "porcentaje_mm") {
+
+        notas.push(
+
+            "El porcentaje m/m expresa gramos de sustancia pura por cada 100 g de solución final."
+
+        );
+
+    }
+
+
+    if (tipo === "porcentaje_mv") {
+
+        notas.push(
+
+            "El porcentaje m/v expresa gramos de sustancia pura por cada 100 mL de solución final."
+
+        );
+
+    }
+
+
+    if (tipo === "porcentaje_vv") {
+
+        notas.push(
+
+            "El porcentaje v/v expresa el volumen del producto comercial respecto al volumen final de la solución. No representa la pureza de la sustancia química."
+
+        );
+
+    }
+
+
+    if (tipo !== "porcentaje_vv") {
+
+        notas.push(
+
+            "La masa requerida considera la pureza del producto comercial."
+
+        );
+
+    }
+
+
     if (esLiquido(insumo)) {
 
         notas.push(
@@ -878,35 +984,15 @@ function actualizarConsideraciones() {
 
 
     if (
+
         esLiquido(insumo) ||
         $("unidad").value === "gotas"
+
     ) {
 
         notas.push(
 
-            "Equivalencia referencial: 20 gotas/mL."
-
-        );
-
-    }
-
-
-    if (
-        tipo === "porcentaje" &&
-        esLiquido(insumo)
-    ) {
-
-        notas.push(
-
-            "El porcentaje v/v se refiere al volumen del producto comercial respecto al volumen final."
-
-        );
-
-    } else {
-
-        notas.push(
-
-            "La masa requerida considera la pureza del producto comercial."
+            "Equivalencia referencial: 20 gotas/mL. El volumen real de una gota depende del líquido y del dispensador."
 
         );
 
@@ -929,30 +1015,25 @@ function actualizarConsideraciones() {
 
     notas.push(
 
-        "Los resultados no verifican la solubilidad, compatibilidad ni las condiciones de preparación segura."
+        "Los cálculos son teóricos y no verifican la solubilidad, compatibilidad, estabilidad ni las condiciones de preparación segura."
 
     );
 
 
     $("consideraciones").innerHTML =
 
-        notas.map(nota =>
-
-            `<p>${nota}</p>`
-
-        ).join("");
+        notas.map(nota => `<p>${nota}</p>`).join("");
 
 }
 
 
 // ============================================================
-// 13. MOTOR PRINCIPAL DE CÁLCULO
+// 15. MOTOR PRINCIPAL DE CÁLCULO
 // ============================================================
 
 function calcularRequerimiento() {
 
     limpiarResultados();
-
 
     const insumo = obtenerInsumo();
 
@@ -978,14 +1059,18 @@ function calcularRequerimiento() {
 
     const unidad = $("unidad").value;
 
-    const pureza = insumo.pureza / 100;
+    const P = insumo.pureza;
+
+    const pureza = P / 100;
 
 
-    // VALIDACIÓN DE DATOS
+    // VALIDACIÓN DE LOS DATOS DE ENTRADA
 
     if (
+
         !Number.isFinite(concentracion) ||
         concentracion <= 0
+
     ) {
 
         mostrarError(
@@ -998,8 +1083,10 @@ function calcularRequerimiento() {
 
 
     if (
+
         !Number.isFinite(cantidad) ||
         cantidad <= 0
+
     ) {
 
         mostrarError(
@@ -1012,9 +1099,11 @@ function calcularRequerimiento() {
 
 
     if (
+
         !Number.isFinite(pureza) ||
         pureza <= 0 ||
         pureza > 1
+
     ) {
 
         mostrarError(
@@ -1026,35 +1115,68 @@ function calcularRequerimiento() {
     }
 
 
-    const volumenML =
+    let volumenML = null;
 
-        convertirAMililitros(cantidad, unidad);
+    let volumenL = null;
 
-
-    const volumenL = volumenML / 1000;
-
-
-    if (
-        !Number.isFinite(volumenML) ||
-        volumenML <= 0
-    ) {
-
-        mostrarError(
-            "El volumen final no es válido."
-        );
-
-        return;
-
-    }
-
+    let masaFinalG = null;
 
     let masaG = 0;
 
     let detalle = "";
 
 
+    // CONVERSIÓN DE LA CANTIDAD FINAL
+
+    if (tipo === "porcentaje_mm") {
+
+        masaFinalG =
+            convertirAGramos(cantidad, unidad);
+
+
+        if (
+
+            !Number.isFinite(masaFinalG) ||
+            masaFinalG <= 0
+
+        ) {
+
+            mostrarError(
+                "La masa final de la solución no es válida."
+            );
+
+            return;
+
+        }
+
+    } else {
+
+        volumenML =
+            convertirAMililitros(cantidad, unidad);
+
+        volumenL = volumenML / 1000;
+
+
+        if (
+
+            !Number.isFinite(volumenML) ||
+            volumenML <= 0
+
+        ) {
+
+            mostrarError(
+                "El volumen final de la solución no es válido."
+            );
+
+            return;
+
+        }
+
+    }
+
+
 // ============================================================
-// 14. CÁLCULO POR NORMALIDAD
+// 16. CÁLCULO POR NORMALIDAD
 // ============================================================
 
     if (tipo === "normalidad") {
@@ -1082,7 +1204,11 @@ function calcularRequerimiento() {
 
                 mostrarError(
 
-                    "La normalidad requerida supera la normalidad del producto existente."
+                    "La normalidad requerida supera la normalidad del producto existente (" +
+
+                    formatoCompleto(N1) +
+
+                    " eq/L)."
 
                 );
 
@@ -1106,7 +1232,7 @@ function calcularRequerimiento() {
 
             `${formatoCompleto(concentracion)} × ${formatoCompleto(PE)} × ${formatoCompleto(volumenL)}`,
 
-            `${insumo.pureza} / 100`
+            `${P} / 100`
 
         );
 
@@ -1114,7 +1240,7 @@ function calcularRequerimiento() {
 
 
 // ============================================================
-// 15. CÁLCULO POR MOLARIDAD
+// 17. CÁLCULO POR MOLARIDAD
 // ============================================================
 
     else if (tipo === "molaridad") {
@@ -1128,7 +1254,11 @@ function calcularRequerimiento() {
 
                 mostrarError(
 
-                    "La molaridad requerida supera la molaridad del producto existente."
+                    "La molaridad requerida supera la molaridad del producto existente (" +
+
+                    formatoCompleto(M1) +
+
+                    " mol/L)."
 
                 );
 
@@ -1152,7 +1282,7 @@ function calcularRequerimiento() {
 
             `${formatoCompleto(concentracion)} × ${formatoCompleto(insumo.masaMolar)} × ${formatoCompleto(volumenL)}`,
 
-            `${insumo.pureza} / 100`
+            `${P} / 100`
 
         );
 
@@ -1160,18 +1290,122 @@ function calcularRequerimiento() {
 
 
 // ============================================================
-// 16. CÁLCULO POR PORCENTAJE V/V
+// 18. CÁLCULO POR PORCENTAJE MASA / MASA
 // ============================================================
 
-    else if (
-        tipo === "porcentaje" &&
-        esLiquido(insumo)
-    ) {
+    else if (tipo === "porcentaje_mm") {
+
+        if (concentracion > P) {
+
+            mostrarError(
+
+                "La concentración requerida supera la pureza del producto comercial (" +
+
+                P +
+
+                " % m/m). No puede obtenerse mediante dilución."
+
+            );
+
+            return;
+
+        }
+
+
+        masaG = (
+
+            concentracion *
+            masaFinalG
+
+        ) / P;
+
+
+        detalle = "m = " + fraccion(
+
+            `${formatoCompleto(concentracion)} × ${formatoCompleto(masaFinalG)}`,
+
+            formatoCompleto(P)
+
+        );
+
+    }
+
+
+// ============================================================
+// 19. CÁLCULO POR PORCENTAJE MASA / VOLUMEN
+// ============================================================
+
+    else if (tipo === "porcentaje_mv") {
+
+        if (esLiquido(insumo)) {
+
+            const limiteMV =
+                porcentajeMVProducto(insumo);
+
+
+            if (concentracion > limiteMV) {
+
+                mostrarError(
+
+                    "La concentración requerida supera la concentración comercial de referencia (" +
+
+                    formatoResultados(limiteMV) +
+
+                    " % m/v). No se admite para el cálculo por dilución."
+
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        masaG = (
+
+            concentracion *
+            volumenML
+
+        ) / P;
+
+
+        detalle = "m = " + fraccion(
+
+            `${formatoCompleto(concentracion)} × ${formatoCompleto(volumenML)}`,
+
+            formatoCompleto(P)
+
+        );
+
+    }
+
+
+// ============================================================
+// 20. CÁLCULO POR PORCENTAJE VOLUMEN / VOLUMEN
+// ============================================================
+
+    else if (tipo === "porcentaje_vv") {
+
+        if (!esLiquido(insumo)) {
+
+            mostrarError(
+
+                "El porcentaje v/v comercial solamente es aplicable a insumos líquidos."
+
+            );
+
+            return;
+
+        }
+
 
         if (concentracion > 100) {
 
             mostrarError(
-                "El porcentaje v/v no puede superar el 100 %."
+
+                "El porcentaje v/v del producto comercial no puede superar el 100 %."
+
             );
 
             return;
@@ -1199,38 +1433,26 @@ function calcularRequerimiento() {
     }
 
 
-// ============================================================
-// 17. CÁLCULO POR PORCENTAJE M/V
-// ============================================================
+    else {
 
-    else if (tipo === "porcentaje") {
-
-        masaG = (
-
-            concentracion *
-            volumenML
-
-        ) / (100 * pureza);
-
-
-        detalle = "m = " + fraccion(
-
-            `${formatoCompleto(concentracion)} × ${formatoCompleto(volumenML)}`,
-
-            `100 × (${insumo.pureza} / 100)`
-
+        mostrarError(
+            "Seleccione un tipo de concentración válido."
         );
+
+        return;
 
     }
 
 
 // ============================================================
-// 18. VALIDACIÓN Y PRESENTACIÓN DE RESULTADOS
+// 21. VALIDACIÓN DEL RESULTADO
 // ============================================================
 
     if (
+
         !Number.isFinite(masaG) ||
         masaG <= 0
+
     ) {
 
         mostrarError(
@@ -1242,33 +1464,41 @@ function calcularRequerimiento() {
     }
 
 
-    if (
-        esLiquido(insumo) &&
-        !Number.isFinite(
-            (masaG / insumo.densidad) * GOTAS_POR_ML
-        )
-    ) {
+    if (esLiquido(insumo)) {
 
-        mostrarError(
-            "El volumen calculado excede el rango numérico."
-        );
+        if (
 
-        return;
+            !Number.isFinite(
+                (masaG / insumo.densidad) *
+                GOTAS_POR_ML
+            )
+
+        ) {
+
+            mostrarError(
+                "El resultado excede el rango numérico."
+            );
+
+            return;
+
+        }
 
     }
 
 
+// ============================================================
+// 22. PRESENTACIÓN FINAL DEL CÁLCULO
+// ============================================================
+
     mostrarResultados(masaG, insumo);
 
 
-    const resultadoMasa = formatoResultados(masaG);
+    const resultadoMasa =
+        formatoResultados(masaG);
 
 
-    const signo = resultadoMasa.startsWith("<")
-
-        ? ""
-
-        : "= ";
+    const signo =
+        resultadoMasa.startsWith("<") ? "" : "= ";
 
 
     $("detalle").innerHTML = `
@@ -1298,7 +1528,7 @@ function calcularRequerimiento() {
 
 
 // ============================================================
-// 19. LIMPIAR DATOS INGRESADOS
+// 23. LIMPIAR DATOS
 // ============================================================
 
 function limpiarDatos() {
@@ -1307,7 +1537,14 @@ function limpiarDatos() {
 
     $("cantidad").value = "";
 
-    $("unidad").value = "ml";
+
+    $("unidad").value =
+
+        $("tipoCalculo").value === "porcentaje_mm"
+
+        ? "g"
+
+        : "ml";
 
 
     limpiarResultados();
@@ -1320,7 +1557,7 @@ function limpiarDatos() {
 
 
 // ============================================================
-// 20. EVENTOS DE LA INTERFAZ
+// 24. EVENTOS DE LA INTERFAZ
 // ============================================================
 
 $("insumo").addEventListener(
@@ -1336,7 +1573,15 @@ $("tipoCalculo").addEventListener(
 
     "change",
 
-    actualizarTipoCalculo
+    () => {
+
+        $("concentracion").value = "";
+
+        $("cantidad").value = "";
+
+        actualizarTipoCalculo();
+
+    }
 
 );
 
@@ -1409,7 +1654,7 @@ $("unidad").addEventListener(
 
 
 // ============================================================
-// 21. INICIALIZACIÓN DE IQBF-CALC
+// 25. INICIALIZACIÓN DE IQBF-CALC
 // ============================================================
 
 actualizarPropiedades();
