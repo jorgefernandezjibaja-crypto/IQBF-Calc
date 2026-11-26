@@ -3,7 +3,7 @@
    IQBF-Calc
    Calculadora de requerimiento de IQBF
    OG-IQBF - UNIFSLB
-   Versión 1.2 - 2026
+   Versión 1.3 - 2026
    ============================================================ */
 
 const $ = id => document.getElementById(id);
@@ -25,7 +25,7 @@ const insumos = {
         densidad: 0.79,
         masaMolar: 58.08,
         factor: null,
-        nota: "La normalidad depende de la reacción química."
+        nota: "La normalidad y el peso equivalente dependen de la reacción química específica."
     },
 
     hcl: {
@@ -63,13 +63,13 @@ const insumos = {
 
     amoniaco: {
         nombre: "Amoniaco",
-        formula: "NH₃",
+        formula: "NH₃ (ac)",
         estado: "Líquido",
         pureza: 29.5,
         densidad: 0.89,
         masaMolar: 17.031,
         factor: 1,
-        nota: "Se asume que el porcentaje comercial corresponde a NH₃ en masa. Verificar la etiqueta del producto."
+        nota: "Producto comercial denominado hidróxido de amonio (NH₄OH). Los cálculos se realizan sobre la base del contenido de NH₃ al 29.5 % m/m. La masa molar formal del NH₄OH es 35.05 g/mol."
     },
 
     na2co3: {
@@ -102,7 +102,7 @@ const insumos = {
         densidad: 0.715,
         masaMolar: 74.12,
         factor: null,
-        nota: "La normalidad depende de la reacción química."
+        nota: "La normalidad y el peso equivalente dependen de la reacción química específica."
     },
 
     kmno4: {
@@ -135,7 +135,7 @@ const insumos = {
         densidad: 0.88,
         masaMolar: 78.11,
         factor: null,
-        nota: "La normalidad depende de la reacción química."
+        nota: "La normalidad y el peso equivalente dependen de la reacción química específica."
     },
 
     cacl2: {
@@ -156,7 +156,7 @@ const insumos = {
 // 2. FUNCIONES DE FORMATO NUMÉRICO
 // ============================================================
 
-// Exactamente tres decimales para características químicas.
+// Características químicas: exactamente tres decimales.
 
 function formatoCaracteristicas(valor) {
 
@@ -169,7 +169,7 @@ function formatoCaracteristicas(valor) {
 }
 
 
-// Máximo seis decimales para los resultados.
+// Resultados: máximo seis decimales.
 
 function formatoResultados(valor) {
 
@@ -189,8 +189,7 @@ function formatoResultados(valor) {
 }
 
 
-// Conserva la precisión numérica disponible
-// para mostrar los valores utilizados en el cálculo.
+// Conservación de la precisión numérica disponible.
 
 function formatoCompleto(valor) {
 
@@ -614,6 +613,7 @@ function actualizarPropiedades() {
 
         [
 
+            "formulaQuimica",
             "estado",
             "pureza",
             "densidad",
@@ -624,7 +624,13 @@ function actualizarPropiedades() {
 
         ].forEach(id => {
 
-            $(id).textContent = "—";
+            const elemento = $(id);
+
+            if (elemento) {
+
+                elemento.textContent = "—";
+
+            }
 
         });
 
@@ -641,15 +647,32 @@ function actualizarPropiedades() {
     }
 
 
+    // FÓRMULA QUÍMICA
+
+    if ($("formulaQuimica")) {
+
+        $("formulaQuimica").textContent =
+            insumo.formula || "No definido";
+
+    }
+
+
+    // PRESENTACIÓN
+
     $("estado").textContent =
         insumo.estado;
 
+
+    // PUREZA
 
     $("pureza").textContent =
         insumo.pureza + " %";
 
 
+    // DENSIDAD
+
     $("densidad").textContent =
+
         esLiquido(insumo)
 
         ? insumo.densidad + " g/mL"
@@ -657,12 +680,16 @@ function actualizarPropiedades() {
         : "No requerida";
 
 
+    // MASA MOLAR
+
     $("masaMolar").textContent =
 
         formatoCaracteristicas(
             insumo.masaMolar
         ) + " g/mol";
 
+
+    // PESO EQUIVALENTE
 
     const PE = pesoEquivalente(insumo);
 
@@ -676,6 +703,8 @@ function actualizarPropiedades() {
         : "No definido";
 
 
+    // NORMALIDAD DEL PRODUCTO
+
     const N = normalidadProducto(insumo);
 
 
@@ -688,6 +717,8 @@ function actualizarPropiedades() {
         : "No aplica";
 
 
+    // MOLARIDAD DEL PRODUCTO
+
     const M = molaridadProducto(insumo);
 
 
@@ -699,6 +730,8 @@ function actualizarPropiedades() {
 
         : "No aplica";
 
+
+    // HABILITAR O DESHABILITAR NORMALIDAD
 
     const opcionNormalidad =
 
@@ -1211,7 +1244,9 @@ function calcularRequerimiento() {
 
     if (
         esLiquido(insumo) &&
-        !Number.isFinite(masaG / insumo.densidad)
+        !Number.isFinite(
+            (masaG / insumo.densidad) * GOTAS_POR_ML
+        )
     ) {
 
         mostrarError(
@@ -1227,6 +1262,7 @@ function calcularRequerimiento() {
 
 
     const resultadoMasa = formatoResultados(masaG);
+
 
     const signo = resultadoMasa.startsWith("<")
 
