@@ -10,9 +10,9 @@
 
     <title>IQBF-Calc | Calculadora de IQBF</title>
 
-    <link rel="stylesheet" href="style.css?v=1.3">
+    <link rel="stylesheet" href="style.css?v=1.4">
 
-    <script src="script.js?v=1.3" defer></script>
+    <script src="script.js?v=1.4" defer></script>
 
 </head>
 
@@ -34,13 +34,25 @@
         </div>
 
 
-<div class="titulo-encabezado">
-    <h1>IQBF-Calc</h1>
-    <h2>Calculadora de requerimiento de insumos químicos y bienes fiscalizados</h2>
-    <p class="texto-vpi">Vicepresidencia de Investigación</p>
-    <p class="texto-ogiqbf">Oficina de Gestión de Insumos Químicos y Bienes Fiscalizados</p>
-    <p>UNIFSLB</p>
-</div>
+        <div class="titulo-encabezado">
+
+            <h1>IQBF-Calc</h1>
+
+            <h2>
+                Calculadora de requerimiento de insumos químicos y bienes fiscalizados
+            </h2>
+
+            <p class="texto-vpi">
+                Vicepresidencia de Investigación
+            </p>
+
+            <p class="texto-ogiqbf">
+                Oficina de Gestión de Insumos Químicos y Bienes Fiscalizados
+            </p>
+
+            <p>UNIFSLB</p>
+
+        </div>
 
 
         <div class="logo logo-derecho">
@@ -66,8 +78,12 @@
             <h2>Calculadora de requerimientos</h2>
 
 
+            <!-- SELECCIÓN DEL INSUMO -->
+
             <label for="insumo">
+
                 Seleccionar insumo químico
+
             </label>
 
             <select id="insumo">
@@ -127,7 +143,9 @@
             </select>
 
 
-            <!-- CARACTERÍSTICAS DEL INSUMO -->
+            <!-- ===================================== -->
+            <!-- CARACTERÍSTICAS DEL INSUMO             -->
+            <!-- ===================================== -->
 
             <section class="propiedades">
 
@@ -178,37 +196,65 @@
             </section>
 
 
-            <!-- DATOS DEL REQUERIMIENTO -->
+            <!-- ===================================== -->
+            <!-- DATOS DEL REQUERIMIENTO               -->
+            <!-- ===================================== -->
 
             <h3>Datos del requerimiento</h3>
 
 
+            <!-- TIPO DE CONCENTRACIÓN -->
+
             <label for="tipoCalculo">
+
                 Tipo de concentración
+
             </label>
 
             <select id="tipoCalculo">
 
                 <option value="normalidad">
+
                     Normalidad (N)
+
                 </option>
 
                 <option value="molaridad">
+
                     Molaridad (M)
+
                 </option>
 
-                <option value="porcentaje">
-                    Porcentaje (%)
+                <option value="porcentaje_mm">
+
+                    Porcentaje masa/masa (% m/m)
+
+                </option>
+
+                <option value="porcentaje_mv">
+
+                    Porcentaje masa/volumen (% m/v)
+
+                </option>
+
+                <option value="porcentaje_vv">
+
+                    Porcentaje volumen/volumen comercial (% v/v)
+
                 </option>
 
             </select>
 
 
+            <!-- CONCENTRACIÓN REQUERIDA -->
+
             <label
                 id="labelConcentracion"
                 for="concentracion"
             >
+
                 Concentración requerida (eq/L)
+
             </label>
 
             <input
@@ -220,29 +266,49 @@
             >
 
 
-            <label for="unidad">
-                Unidad de la cantidad final requerida
+            <!-- UNIDAD DE MEDIDA DINÁMICA -->
+
+            <label
+                id="labelUnidad"
+                for="unidad"
+            >
+
+                Unidad del volumen final de la solución
+
             </label>
 
             <select id="unidad">
 
                 <option value="ml">
+
                     Mililitros (mL)
+
                 </option>
 
                 <option value="l">
+
                     Litros (L)
+
                 </option>
 
                 <option value="gotas">
+
                     Gotas
+
                 </option>
 
             </select>
 
 
-            <label for="cantidad">
-                Cantidad final requerida
+            <!-- CANTIDAD FINAL DINÁMICA -->
+
+            <label
+                id="labelCantidad"
+                for="cantidad"
+            >
+
+                Volumen final de la solución
+
             </label>
 
             <input
@@ -250,7 +316,7 @@
                 id="cantidad"
                 min="0"
                 step="any"
-                placeholder="Ingrese la cantidad"
+                placeholder="Ingrese el volumen final"
             >
 
 
@@ -262,14 +328,18 @@
                     type="button"
                     id="btnCalcular"
                 >
+
                     Calcular requerimiento
+
                 </button>
 
                 <button
                     type="button"
                     id="btnLimpiar"
                 >
+
                     Limpiar datos
+
                 </button>
 
             </div>
@@ -303,12 +373,16 @@
 
                     <tr>
 
-                        <th>
+                        <th scope="col">
+
                             Unidad de medida
+
                         </th>
 
-                        <th>
+                        <th scope="col">
+
                             Cantidad requerida de la presentación
+
                         </th>
 
                     </tr>
@@ -363,7 +437,9 @@
             </table>
 
 
-            <!-- FÓRMULA UTILIZADA -->
+            <!-- ===================================== -->
+            <!-- FÓRMULA UTILIZADA Y LEYENDA            -->
+            <!-- ===================================== -->
 
             <h3>Fórmula utilizada</h3>
 
@@ -373,7 +449,9 @@
                     id="formula"
                     class="formula-matematica"
                 >
+
                     —
+
                 </div>
 
                 <div
@@ -384,7 +462,9 @@
             </div>
 
 
-            <!-- DETALLE DEL CÁLCULO -->
+            <!-- ===================================== -->
+            <!-- DETALLE DEL CÁLCULO                   -->
+            <!-- ===================================== -->
 
             <h3>Detalle del cálculo</h3>
 
@@ -392,11 +472,15 @@
                 id="detalle"
                 class="detalle-calculo"
             >
+
                 —
+
             </div>
 
 
-            <!-- CONSIDERACIONES TÉCNICAS -->
+            <!-- ===================================== -->
+            <!-- CONSIDERACIONES TÉCNICAS               -->
+            <!-- ===================================== -->
 
             <h3>Consideraciones técnicas</h3>
 
@@ -415,13 +499,31 @@
     <!-- PIE DE PÁGINA INSTITUCIONAL                    -->
     <!-- ============================================= -->
 
-<footer>
-    <p>IQBF-Calc | Versión 1.3</p>
-    <p class="texto-vpi">Vicepresidencia de Investigación</p>
-    <p class="texto-ogiqbf">Oficina de Gestión de Insumos Químicos y Bienes Fiscalizados</p>
-    <p>Universidad Nacional Intercultural Fabiola Salazar Leguía de Bagua</p>
-    <p>2026</p>
-</footer>
+    <footer>
+
+        <p>IQBF-Calc | Versión 1.4</p>
+
+        <p class="texto-vpi">
+
+            Vicepresidencia de Investigación
+
+        </p>
+
+        <p class="texto-ogiqbf">
+
+            Oficina de Gestión de Insumos Químicos y Bienes Fiscalizados
+
+        </p>
+
+        <p>
+
+            Universidad Nacional Intercultural Fabiola Salazar Leguía de Bagua
+
+        </p>
+
+        <p>2026</p>
+
+    </footer>
 
 </body>
 
