@@ -1105,3 +1105,46 @@ footer p:first-child {
     }
 
 }
+/* ============================================================
+   JERARQUÍA DE TEXTOS INSTITUCIONALES
+   ============================================================ */
+
+/* Encabezado */
+
+.titulo-encabezado p.texto-vpi {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.titulo-encabezado p.texto-ogiqbf {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+/* Pie de página */
+
+footer p.texto-vpi {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+footer p.texto-ogiqbf {
+    font-size: 11px;
+    font-weight: 400;
+}
+
+/* Adaptación a celulares */
+
+@media (max-width: 800px) {
+
+    .titulo-encabezado p.texto-vpi {
+        font-size: 14px;
+    }
+
+    .titulo-encabezado p.texto-ogiqbf {
+        font-size: 11px;
+    }
+
+}
